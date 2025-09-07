@@ -32,6 +32,10 @@ function renderLoans() {
       <p>Outstanding: ₹${outstanding}</p>
       <p>Remaining EMIs: ${remainingEMIs}</p>
       <div class="progress"><div class="progress-bar" style="width:${progress}%"></div></div>
+      
+      <label>Select Payment Date:</label>
+      <input type="date" id="date-${index}" />
+      <br>
       <button onclick="payEMI(${index})">Pay EMI</button>
       <button onclick="payExtraEMI(${index})">Pay Extra EMI</button>
       <button onclick="deleteLoan(${index})" style="background:#e84118;color:white;">Delete Loan</button>
@@ -61,12 +65,17 @@ function renderLoans() {
   renderCharts();
 }
 
+function getSelectedDate(index) {
+  let input = document.getElementById(`date-${index}`);
+  return input && input.value ? input.value : new Date().toLocaleDateString();
+}
+
 function payEMI(index) {
   if (loans[index].paidMonths < loans[index].tenure) {
     loans[index].paidMonths += 1;
     let remaining = loans[index].tenure - loans[index].paidMonths;
     loans[index].transactions.push({
-      date: new Date().toLocaleDateString(),
+      date: getSelectedDate(index),
       type: "Regular EMI",
       amount: loans[index].emi.toFixed(2),
       remaining
@@ -82,7 +91,7 @@ function payExtraEMI(index) {
     if (loans[index].paidMonths > loans[index].tenure) loans[index].paidMonths = loans[index].tenure;
     let remaining = loans[index].tenure - loans[index].paidMonths;
     loans[index].transactions.push({
-      date: new Date().toLocaleDateString(),
+      date: getSelectedDate(index),
       type: "Extra EMI",
       amount: (2 * loans[index].emi).toFixed(2),
       remaining
