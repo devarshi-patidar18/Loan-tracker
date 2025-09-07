@@ -17,10 +17,12 @@ function renderLoans() {
   loans.forEach((loan, index) => {
     let card = document.createElement("div");
     card.className = "loan-card";
+
     let remainingEMIs = loan.tenure - loan.paidMonths;
     let outstanding = (loan.emi * remainingEMIs).toFixed(2);
     let progress = (loan.paidMonths / loan.tenure) * 100;
 
+    // Loan card UI
     card.innerHTML = `
       <h3>${loan.name}</h3>
       <p>Amount: ₹${loan.amount}</p>
@@ -32,7 +34,27 @@ function renderLoans() {
       <div class="progress"><div class="progress-bar" style="width:${progress}%"></div></div>
       <button onclick="payEMI(${index})">Pay EMI</button>
       <button onclick="payExtraEMI(${index})">Pay Extra EMI</button>
+      <button onclick="deleteLoan(${index})" style="background:#e84118;color:white;">Delete Loan</button>
+      
+      <h4>Transactions</h4>
+      <table border="1" cellpadding="5" cellspacing="0" style="width:100%;margin-top:10px;">
+        <tr>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Amount</th>
+          <th>Remaining EMIs</th>
+        </tr>
+        ${loan.transactions.map(t => `
+          <tr>
+            <td>${t.date}</td>
+            <td>${t.type}</td>
+            <td>₹${t.amount}</td>
+            <td>${t.remaining}</td>
+          </tr>
+        `).join("")}
+      </table>
     `;
+
     loanList.appendChild(card);
   });
 
@@ -42,6 +64,13 @@ function renderLoans() {
 function payEMI(index) {
   if (loans[index].paidMonths < loans[index].tenure) {
     loans[index].paidMonths += 1;
+    let remaining = loans[index].tenure - loans[index].paidMonths;
+    loans[index].transactions.push({
+      date: new Date().toLocaleDateString(),
+      type: "Regular EMI",
+      amount: loans[index].emi.toFixed(2),
+      remaining
+    });
     saveLoans();
     renderLoans();
   }
@@ -49,8 +78,23 @@ function payEMI(index) {
 
 function payExtraEMI(index) {
   if (loans[index].paidMonths < loans[index].tenure) {
-    loans[index].paidMonths += 2; // One extra EMI
+    loans[index].paidMonths += 2;
     if (loans[index].paidMonths > loans[index].tenure) loans[index].paidMonths = loans[index].tenure;
+    let remaining = loans[index].tenure - loans[index].paidMonths;
+    loans[index].transactions.push({
+      date: new Date().toLocaleDateString(),
+      type: "Extra EMI",
+      amount: (2 * loans[index].emi).toFixed(2),
+      remaining
+    });
+    saveLoans();
+    renderLoans();
+  }
+}
+
+function deleteLoan(index) {
+  if (confirm("Are you sure you want to delete this loan?")) {
+    loans.splice(index, 1);
     saveLoans();
     renderLoans();
   }
@@ -95,7 +139,17 @@ document.getElementById("loanForm").addEventListener("submit", function(e) {
   let tenure = parseInt(document.getElementById("loanTenure").value);
 
   let emi = calculateEMI(amount, rate, tenure);
-  loans.push({ name, amount, rate, tenure, emi, paidMonths: 0 });
+
+  loans.push({
+    name,
+    amount,
+    rate,
+    tenure,
+    emi,
+    paidMonths: 0,
+    transactions: []
+  });
+
   saveLoans();
   renderLoans();
   this.reset();
