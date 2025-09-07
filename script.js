@@ -2,6 +2,7 @@ let loans = JSON.parse(localStorage.getItem("loans")) || [];
 
 function saveLoans() {
   localStorage.setItem("loans", JSON.stringify(loans));
+  renderSummary();
 }
 
 function calculateEMI(amount, rate, tenure) {
@@ -93,6 +94,7 @@ function payEMI(index) {
     });
     saveLoans();
     renderLoans();
+    renderSummary();
   }
 }
 
