@@ -44,14 +44,15 @@ function renderLoans() {
       <table border="1" cellpadding="5" cellspacing="0" style="width:100%;margin-top:10px;">
         <tr>
           <th>Date</th>
-          <th>Type</th>
+          
           <th>Amount</th>
           <th>Remaining EMIs</th>
+          <th>Action</th>
         </tr>
         ${loan.transactions.map(t => `
           <tr>
             <td>${t.date}</td>
-            <td>${t.type}</td>
+          
             <td>₹${t.amount}</td>
             <td>${t.remaining}</td>
             <td><button onclick="deleteTransaction(${index})" style="background:#e84118;color:white;">Delete</button>
