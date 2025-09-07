@@ -184,7 +184,33 @@ function renderSummary() {
   }, 0);
   let totalMonthlyEMI = loans.reduce((sum, loan) => sum + loan.emi, 0);
 
+  // Calculate overall closure date (latest among loans)
+  let closureDates = loans.map(calculateClosureDate).filter(d => d !== "Closed");
+  let overallClosure = closureDates.length > 0 
+      ? closureDates.sort((a, b) => new Date(b) - new Date(a))[0]
+      : "All Loans Closed";
+
   document.getElementById("totalLoans").textContent = `Total Loans: ${totalLoans}`;
   document.getElementById("totalOutstanding").textContent = `Total Outstanding: ₹${totalOutstanding.toFixed(2)}`;
   document.getElementById("totalMonthlyEMI").textContent = `Total Monthly EMI: ₹${totalMonthlyEMI.toFixed(2)}`;
+  document.getElementById("closureDate").textContent = `Expected Loan Closure: ${overallClosure}`;
 }
+
+
+function calculateClosureDate(loan) {
+  let remainingMonths = loan.tenure - loan.paidMonths;
+
+  // if loan is already closed
+  if (remainingMonths <= 0) return "Closed";
+
+  // base date = last transaction date OR today
+  let lastDate = loan.transactions.length > 0 
+      ? new Date(loan.transactions[loan.transactions.length - 1].date)
+      : new Date();
+
+  // add remaining months
+  lastDate.setMonth(lastDate.getMonth() + remainingMonths);
+
+  return lastDate.toLocaleDateString();
+}
+
