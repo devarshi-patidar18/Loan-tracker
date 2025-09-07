@@ -256,6 +256,7 @@ function renderLoans() {
         <button class="pay" onclick="payEMI(${index})">Pay EMI</button>
         <button class="extra" onclick="payExtraEMI(${index})">Pay Extra EMI</button>
         <button class="delete" onclick="deleteLoan(${index})">Delete Loan</button>
+        <button onclick="editLoan(${index})">Edit</button>
       </div>
 
       <h4>Transactions</h4>
@@ -362,3 +363,38 @@ document.getElementById("loanForm").addEventListener("submit", function(e) {
 
 /* initial render */
 renderLoans();
+
+function editLoan(index) {
+  let loan = loans[index];
+
+  let newName = prompt("Edit Loan Name:", loan.name);
+  if (newName === null) return; // cancel
+
+  let newPrincipal = parseFloat(prompt("Edit Principal Amount:", loan.principal));
+  if (isNaN(newPrincipal) || newPrincipal <= 0) return alert("Invalid principal amount");
+
+  let newTenure = parseInt(prompt("Edit Tenure (months):", loan.tenure));
+  if (isNaN(newTenure) || newTenure <= 0) return alert("Invalid tenure");
+
+  let newEMI = parseFloat(prompt("Edit EMI:", loan.emi));
+  if (isNaN(newEMI) || newEMI <= 0) return alert("Invalid EMI");
+
+  // Update loan details
+  loan.name = newName;
+  loan.principal = newPrincipal;
+  loan.tenure = newTenure;
+  loan.emi = newEMI;
+
+  // Reset outstanding (keep transactions intact but adjust outstanding accordingly)
+  let paidExtra = loan.transactions
+    .filter(t => t.type === "Extra Payment")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  let paidEmis = loan.transactions.filter(t => t.type === "EMI").length;
+
+  loan.outstanding = newPrincipal - (paidEmis * newEMI) - paidExtra;
+  if (loan.outstanding < 0) loan.outstanding = 0;
+
+  saveLoans();
+  renderLoans();
+}
