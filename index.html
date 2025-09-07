@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loan Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>📊 Personal Loan Tracker</h1>
+  </header>
+
+  <main>
+    <section id="add-loan">
+      <h2>Add New Loan</h2>
+      <form id="loanForm">
+        <input type="text" id="loanName" placeholder="Loan Name" required />
+        <input type="number" id="loanAmount" placeholder="Loan Amount" required />
+        <input type="number" id="loanRate" placeholder="Interest Rate (%)" required />
+        <input type="number" id="loanTenure" placeholder="Tenure (months)" required />
+        <button type="submit">Add Loan</button>
+      </form>
+    </section>
+
+    <section id="dashboard">
+      <h2>Dashboard</h2>
+      <div id="loanList"></div>
+    </section>
+
+    <section id="charts">
+      <h2>Loan Analysis</h2>
+      <canvas id="balanceChart"></canvas>
+      <canvas id="pieChart"></canvas>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
