@@ -74,7 +74,8 @@ function getSelectedDate(index) {
 }
 
 function payEMI(index) {
-  if (loans[index].paidMonths < loans[index].tenure) {
+  
+  if (confirm("Pay EMI ?") && loans[index].paidMonths < loans[index].tenure) {
     loans[index].paidMonths += 1;
     let remaining = loans[index].tenure - loans[index].paidMonths;
     loans[index].transactions.push({
