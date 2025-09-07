@@ -54,6 +54,8 @@ function renderLoans() {
             <td>${t.type}</td>
             <td>₹${t.amount}</td>
             <td>${t.remaining}</td>
+            <td><button onclick="deleteTransaction(${index})" style="background:#e84118;color:white;">Delete</button>
+            </td>
           </tr>
         `).join("")}
       </table>
@@ -66,6 +68,10 @@ function renderLoans() {
 renderSummary();
 
   renderCharts();
+}
+
+function deleteTransaction(index){
+  alert("delete transaction");
 }
 
 function getSelectedDate(index) {
