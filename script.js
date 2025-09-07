@@ -63,6 +63,9 @@ function renderLoans() {
   });
 
   renderCharts();
+renderSummary();
+
+  renderCharts();
 }
 
 function getSelectedDate(index) {
@@ -165,3 +168,15 @@ document.getElementById("loanForm").addEventListener("submit", function(e) {
 });
 
 renderLoans();
+
+function renderSummary() {
+  let totalLoans = loans.length;
+  let totalOutstanding = loans.reduce((sum, loan) => {
+    return sum + loan.emi * (loan.tenure - loan.paidMonths);
+  }, 0);
+  let totalMonthlyEMI = loans.reduce((sum, loan) => sum + loan.emi, 0);
+
+  document.getElementById("totalLoans").textContent = `Total Loans: ${totalLoans}`;
+  document.getElementById("totalOutstanding").textContent = `Total Outstanding: ₹${totalOutstanding.toFixed(2)}`;
+  document.getElementById("totalMonthlyEMI").textContent = `Total Monthly EMI: ₹${totalMonthlyEMI.toFixed(2)}`;
+}
