@@ -232,7 +232,7 @@ function renderLoans() {
       return `
       <tr>
         <td>${formatDisplayDate(t.date)}</td>
-        <td>${t.type}</td>
+        
         <td>₹${t.amount}</td>
         <td>${t.remaining}</td>
         <td><button class="small delete" onclick="deleteTransaction(${index}, ${txIdx})">Delete</button></td>
@@ -261,7 +261,7 @@ function renderLoans() {
       <h4>Transactions</h4>
       <table>
         <tr>
-          <th>Date</th><th>Type</th><th>Amount</th><th>Remaining EMIs</th><th>Action</th>
+          <th>Date</th><th>Amount</th><th>Remaining EMIs</th><th>Action</th>
         </tr>
         ${txRows || '<tr><td colspan="5" style="text-align:center;color:#888">No transactions yet</td></tr>'}
       </table>
