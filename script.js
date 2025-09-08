@@ -11,8 +11,8 @@ function saveLoans() {
 function calculateEMI(amount, rate, tenure) {
   let monthlyRate = rate / 12 / 100;
   if (monthlyRate === 0) return amount / tenure;
-  return (amount * monthlyRate * Math.pow(1 + monthlyRate, tenure)) / 
-         (Math.pow(1 + monthlyRate, tenure) - 1);
+  return (amount * monthlyRate * Math.pow(1 + monthlyRate, tenure)) /
+    (Math.pow(1 + monthlyRate, tenure) - 1);
 }
 
 function getSelectedDate(index) {
@@ -22,12 +22,12 @@ function getSelectedDate(index) {
 }
 
 function formatDisplayDate(dateStr) {
-  try { return new Date(dateStr).toLocaleDateString(); } catch(e) { return dateStr; }
+  try { return new Date(dateStr).toLocaleDateString(); } catch (e) { return dateStr; }
 }
 
-function sortTransactions(loan){
-  if(!loan.transactions) loan.transactions = [];
-  loan.transactions.sort((a,b) => new Date(a.date) - new Date(b.date));
+function sortTransactions(loan) {
+  if (!loan.transactions) loan.transactions = [];
+  loan.transactions.sort((a, b) => new Date(a.date) - new Date(b.date));
 }
 
 /*
@@ -102,8 +102,8 @@ function calculateClosureDate(loan) {
   if (remaining === Infinity) return "N/A";
 
   let base = (loan.transactions && loan.transactions.length > 0)
-      ? new Date(loan.transactions[loan.transactions.length - 1].date)
-      : new Date();
+    ? new Date(loan.transactions[loan.transactions.length - 1].date)
+    : new Date();
 
   let closure = new Date(base);
   closure.setMonth(closure.getMonth() + remaining);
@@ -116,7 +116,7 @@ function getTransactionsWithRemaining(loan) {
   let principal = loan.amount;
   const r = loan.rate / 12 / 100;
 
-  const txs = (loan.transactions || []).slice().sort((a,b) => new Date(a.date) - new Date(b.date));
+  const txs = (loan.transactions || []).slice().sort((a, b) => new Date(a.date) - new Date(b.date));
   for (const t of txs) {
     if (principal <= 0) principal = 0;
 
@@ -234,10 +234,12 @@ function renderLoans() {
         <td>${formatDisplayDate(t.date)}</td>
         
         <td>₹${t.amount}</td>
-        <td>${t.remaining}</td>
+        <td>${t.remaining-1}</td>
         <td><button class="small delete" onclick="deleteTransaction(${index}, ${txIdx})">Delete</button></td>
-      </tr>`;
+      </tr>
+      `;
     }).join("");
+    `<div>next</div>`
 
     card.innerHTML = `
       <h3>${loan.name}</h3>
@@ -246,15 +248,16 @@ function renderLoans() {
       <p>Original Tenure: ${loan.tenure} months</p>
       <p>Monthly EMI: ₹${loan.emi.toFixed(2)}</p>
       <p><strong>Outstanding Principal:</strong> ₹${outstanding.toFixed(2)}</p>
-      <p><strong>Remaining EMIs:</strong> ${remainingEmis === Infinity ? 'N/A' : remainingEmis}</p>
+      <p><strong>Remaining EMIs:</strong> ${remainingEmis === Infinity ? 'N/A' : remainingEmis-1}</p>
 
       <div class="progress"><div class="progress-bar" style="width:${progressPct}%"></div></div>
 
       <label>Select Payment Date:</label>
       <input type="date" id="date-${index}" />
       <div class="loan-actions">
-        <button class="pay" onclick="payEMI(${index})">Pay EMI</button>
-        <button class="extra" onclick="payExtraEMI(${index})">Pay Extra EMI</button>
+  ${remainingEmis-1 == 0 ? `<p>Loan fully paid!</p>` : 
+        `<button class="pay" onclick="payEMI(${index})">Pay EMI</button>
+        <button class="extra" onclick="payExtraEMI(${index})">Pay Extra EMI</button>`}
         <button class="delete" onclick="deleteLoan(${index})">Delete Loan</button>
         <button onclick="editLoan(${index})">Edit</button>
       </div>
@@ -331,7 +334,7 @@ function deleteTransaction(loanIndex, txIndex) {
 }
 
 /* Form to add new loan */
-document.getElementById("loanForm").addEventListener("submit", function(e) {
+document.getElementById("loanForm").addEventListener("submit", function (e) {
   e.preventDefault();
   let name = document.getElementById("loanName").value.trim();
   let amount = parseFloat(document.getElementById("loanAmount").value);
