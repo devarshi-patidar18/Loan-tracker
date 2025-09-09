@@ -27,6 +27,7 @@ document.getElementById("loanForm").addEventListener("submit", function (e) {
   saveLoans();
   this.reset();
   renderLoans();
+  renderSummary(); // ✅ ensure summary updates
 });
 
 // Save to local storage
@@ -51,6 +52,7 @@ function payEMI(index, customDate) {
 
   saveLoans();
   renderLoans();
+  renderSummary();
 }
 
 // Extra payment
@@ -74,6 +76,7 @@ function makeExtraPayment(index) {
   extraInput.value = "";
   saveLoans();
   renderLoans();
+  renderSummary();
 }
 
 // Delete loan
@@ -82,6 +85,7 @@ function deleteLoan(index) {
   loans.splice(index, 1);
   saveLoans();
   renderLoans();
+  renderSummary();
 }
 
 // Edit loan toggle
@@ -119,6 +123,7 @@ function saveEditLoan(index) {
   loan.editing = false;
   saveLoans();
   renderLoans();
+  renderSummary();
 }
 
 // Calculate closure date
@@ -215,3 +220,4 @@ function renderLoans() {
 
 // Initial render
 renderLoans();
+renderSummary();
