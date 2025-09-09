@@ -221,7 +221,7 @@ function renderLoans() {
     loan.paidMonths = loan.transactions.filter(t => t.type === "Regular EMI").length;
 
     const outstanding = computeOutstandingPrincipal(loan);
-    const remainingEmis = calculateRemainingEmis(loan);
+    const remainingEmis = calculateRemainingEmis(loan)-1;
     const progressPct = ((loan.amount - outstanding) / loan.amount) * 100;
 
     let card = document.createElement("div");
@@ -248,14 +248,14 @@ function renderLoans() {
       <p>Original Tenure: ${loan.tenure} months</p>
       <p>Monthly EMI: ₹${loan.emi.toFixed(2)}</p>
       <p><strong>Outstanding Principal:</strong> ₹${outstanding.toFixed(2)}</p>
-      <p><strong>Remaining EMIs:</strong> ${remainingEmis === Infinity ? 'N/A' : remainingEmis-1}</p>
+      <p><strong>Remaining EMIs:</strong> ${remainingEmis === Infinity ? 'N/A' : remainingEmis}</p>
 
       <div class="progress"><div class="progress-bar" style="width:${progressPct}%"></div></div>
 
       <label>Select Payment Date:</label>
       <input type="date" id="date-${index}" />
       <div class="loan-actions">
-  ${remainingEmis-1 == 0 ? `<p>Loan fully paid!</p>` : 
+  ${remainingEmis == 0 ? `<p>Loan fully paid!</p>` : 
         `<button class="pay" onclick="payEMI(${index})">Pay EMI</button>
         <button class="extra" onclick="payExtraEMI(${index})">Pay Extra EMI</button>`}
         <button class="delete" onclick="deleteLoan(${index})">Delete Loan</button>
