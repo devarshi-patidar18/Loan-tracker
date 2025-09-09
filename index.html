@@ -1,51 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Loan Tracker</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>📊 Personal Loan Tracker</h1>
+    <h1>💳 My Loan Tracker</h1>
   </header>
 
   <main>
-    <section id="add-loan">
-      <h2>Add New Loan</h2>
+    <!-- Summary -->
+    <section id="summary" class="card summary">
+      <h2>Loan Summary</h2>
+      <div class="summary-grid">
+        <div><span id="totalLoans">0</span><p>Loans</p></div>
+        <div><span id="totalOutstanding">₹0</span><p>Outstanding</p></div>
+        <div><span id="totalMonthlyEMI">₹0</span><p>Monthly EMI</p></div>
+        <div><span id="closureDate">-</span><p>Closure Date</p></div>
+      </div>
+    </section>
+
+    <!-- Add Loan -->
+    <section class="card">
+      <h2>Add Loan</h2>
       <form id="loanForm">
-        <input type="text" id="loanName" placeholder="Loan Name" required />
-        <input type="number" step="0.01" id="loanAmount" placeholder="Loan Amount" required />
-        <input type="number" step="0.01" id="loanRate" placeholder="Interest Rate (%)" required />
-        <input type="number" id="loanTenure" placeholder="Tenure (months)" required />
-        <button type="submit">Add Loan</button>
+        <input type="text" id="loanName" placeholder="Loan Name" required>
+        <input type="number" id="loanPrincipal" placeholder="Principal Amount" required>
+        <input type="number" id="loanTenure" placeholder="Tenure (months)" required>
+        <input type="number" id="loanEMI" placeholder="EMI Amount" required>
+        <button type="submit">➕ Add Loan</button>
       </form>
     </section>
 
-    <section id="dashboard">
-      <h2>Dashboard</h2>
-
-      <div id="summary" class="summary-card">
-        <h2>Loan Summary</h2>
-        <p id="totalLoans"></p>
-        <p id="totalOutstanding"></p>
-        <p id="totalMonthlyEMI"></p>
-        <p id="closureDate"></p>
-      </div>
-
-      <div id="loanList"></div>
-    </section>
-
-    <section id="charts">
-      <h2>Loan Analysis</h2>
-      <canvas id="balanceChart" width="400" height="200"></canvas>
-      <canvas id="pieChart" width="400" height="200"></canvas>
+    <!-- Loan List -->
+    <section>
+      <h2>Loans</h2>
+      <div id="loanList" class="loan-list"></div>
     </section>
   </main>
 
-  <!-- Chart.js from CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="assets/chart.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
