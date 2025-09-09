@@ -1,113 +1,128 @@
-:root{
-  --brand:#273c75;
-  --card-bg:#ffffff;
-  --muted:#6c7a89;
-  --accent:#44bd32;
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background: #f4f6f9;
+  color: #2c3e50;
 }
 
-*{box-sizing:border-box}
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #f5f6fa;
-  color: #2f3640;
-  line-height:1.4;
-}
 header {
-  background: var(--brand);
+  background: #2c3e50;
   color: white;
-  padding: 1rem;
+  text-align: center;
+  padding: 15px;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+main {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+h2 {
+  margin-bottom: 15px;
+  color: #34495e;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
   text-align: center;
 }
-main {
-  padding: 1rem;
-  max-width: 980px;
-  margin: 0 auto;
-}
-#add-loan { margin-bottom: 1rem; }
-#add-loan form {
-  display:flex;
-  flex-wrap:wrap;
-  gap:0.5rem;
-  align-items:center;
-}
-#add-loan input, #add-loan button {
-  padding: 0.6rem;
-  border-radius:6px;
-  border:1px solid #dcdde1;
-  font-size:0.95rem;
-}
-#add-loan button {
-  background: var(--brand);
-  color:white;
-  border:none;
-}
 
-.summary-card {
-  background: #f1f2f6;
-  border: 1px solid #dcdde1;
+.summary-grid div {
+  background: #ecf0f1;
   border-radius: 10px;
   padding: 15px;
-  margin: 20px 0;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
-.summary-card h2 { margin:0 0 8px 0 }
-.summary-card p { margin:6px 0; font-weight:600; color:#2f3640 }
 
-#loanList {
+.summary-grid span {
+  font-size: 1.4em;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+form {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
+  gap: 12px;
 }
 
-/* loan card */
-.loan-card {
-  background: var(--card-bg);
-  padding: 1rem;
+input, button {
+  padding: 12px;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  border:1px solid #eceff1;
+  font-size: 1em;
 }
-.loan-card h3 { margin:0 0 6px 0 }
-.loan-card p { margin: 5px 0; color:var(--muted) }
+
+button {
+  background: #3498db;
+  color: white;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #2980b9;
+}
+
+.loan-card {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+  background: white;
+}
+
+.loan-card h3 {
+  margin: 0 0 10px 0;
+  color: #2c3e50;
+}
+
 .loan-actions {
-  display:flex;
-  gap:0.5rem;
-  margin-top:8px;
-  flex-wrap:wrap;
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
+
 .loan-actions button {
-  padding:0.45rem 0.6rem;
-  border-radius:6px;
-  border:none;
-  cursor:pointer;
-  font-weight:600;
-}
-.loan-actions .pay { background:#00a8ff; color:white; }
-.loan-actions .extra { background:#f39c12; color:white; }
-.loan-actions .delete { background:#e84118; color:white; }
-.loan-actions .small { padding:0.3rem 0.5rem; font-size:0.9rem }
-
-/* progress */
-.progress { background:#dcdde1; border-radius:6px; height:12px; overflow:hidden; margin-top:6px }
-.progress-bar { height:12px; background:var(--accent); width:0% }
-
-/* table */
-table { width:100%; border-collapse:collapse; margin-top:10px; }
-th, td { text-align:left; padding:8px; border:1px solid #eceff1 }
-th { background:#f7f9fb }
-
-/* date input small */
-.loan-card input[type="date"] {
-  padding:0.4rem;
-  border-radius:6px;
-  border:1px solid #dcdde1;
+  flex: 1;
+  background: #2ecc71;
 }
 
-/* responsive */
-@media (min-width:700px) {
-  #loanList { grid-template-columns: 1fr 1fr; }
-  #charts { display:flex; gap:1rem; }
-  #charts canvas { flex:1; }
+.loan-actions button.delete {
+  background: #e74c3c;
+}
+
+.loan-actions button.edit {
+  background: #f39c12;
+}
+
+.transactions {
+  margin-top: 15px;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+}
+
+.transactions table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.transactions th, .transactions td {
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
 }
